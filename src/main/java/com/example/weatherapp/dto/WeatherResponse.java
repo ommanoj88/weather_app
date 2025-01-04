@@ -1,33 +1,50 @@
 package com.example.weatherapp.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class WeatherResponse {
 
-    private double temperature;
-    private int humidity;
-    private String weatherDescription;
+    private CurrentWeather current_weather;
 
-    // Getters and Setters
-    public double getTemperature() {
-        return temperature;
+    public CurrentWeather getCurrent_weather() {
+        return current_weather;
     }
 
-    public void setTemperature(double temperature) {
-        this.temperature = temperature;
+    public void setCurrent_weather(CurrentWeather current_weather) {
+        this.current_weather = current_weather;
     }
 
-    public int getHumidity() {
-        return humidity;
-    }
+    // Inner class to handle current weather details
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class CurrentWeather {
+        private double temperature;
+        private int humidity;
+        private String weatherDescription;  // You can map this manually
 
-    public void setHumidity(int humidity) {
-        this.humidity = humidity;
-    }
+        // Getters and Setters
+        public double getTemperature() {
+            return temperature;
+        }
 
-    public String getWeatherDescription() {
-        return weatherDescription;
-    }
+        public void setTemperature(double temperature) {
+            this.temperature = temperature;
+        }
 
-    public void setWeatherDescription(String weatherDescription) {
-        this.weatherDescription = weatherDescription;
+        public int getHumidity() {
+            return humidity;
+        }
+
+        public void setHumidity(int humidity) {
+            this.humidity = humidity;
+        }
+
+        public String getWeatherDescription() {
+            return weatherDescription;
+        }
+
+        public void setWeatherDescription(String weatherDescription) {
+            this.weatherDescription = weatherDescription;
+        }
     }
 }
