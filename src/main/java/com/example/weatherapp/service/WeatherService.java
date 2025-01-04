@@ -1,8 +1,8 @@
 package com.example.weatherapp.service;
 
+import com.example.weatherapp.dto.WeatherResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.http.ResponseEntity;
 
 @Service
 public class WeatherService {
@@ -15,9 +15,13 @@ public class WeatherService {
         this.restTemplate = restTemplate;
     }
 
-    public String getWeather(double lat, double lon) {
+    public WeatherResponse.CurrentWeather getWeather(double lat, double lon) {
         String url = API_URL.replace("{lat}", String.valueOf(lat)).replace("{lon}", String.valueOf(lon));
-        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
-        return response.getBody();  // Return raw JSON response
+
+        WeatherResponse weatherResponse = restTemplate.getForObject(url, WeatherResponse.class);
+        if (weatherResponse != null) {
+            return weatherResponse.getCurrent_weather();
+        }
+        return null;  // Return null if no weather data is available
     }
 }
