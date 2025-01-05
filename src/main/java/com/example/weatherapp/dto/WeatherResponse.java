@@ -15,12 +15,10 @@ public class WeatherResponse {
         this.current_weather = current_weather;
     }
 
-    // Inner class to handle current weather details
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class CurrentWeather {
         private double temperature;
-        private int humidity;
-        private String weatherDescription;  // You can map this manually
+        private String weatherDescription;
 
         // Getters and Setters
         public double getTemperature() {
@@ -29,14 +27,6 @@ public class WeatherResponse {
 
         public void setTemperature(double temperature) {
             this.temperature = temperature;
-        }
-
-        public int getHumidity() {
-            return humidity;
-        }
-
-        public void setHumidity(int humidity) {
-            this.humidity = humidity;
         }
 
         public String getWeatherDescription() {

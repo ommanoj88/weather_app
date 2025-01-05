@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        #weather-info {
+            margin-top: 20px;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Weather Information</h1>
+
+<!-- Input Form for City -->
+<form id="weather-form">
+    <label for="city">Enter city name:</label>
+    <input type="text" id="city" name="city" required>
+    <button type="submit">Get Weather</button>
+</form>
+
+<!-- Display Weather Information Here -->
+<div id="weather-info"></div>
+
+<script>
+    // Handle the form submission
+    document.getElementById("weather-form").addEventListener("submit", function (event) {
+        event.preventDefault(); // Prevent the form from refreshing the page
+
+        // Get the city name entered by the user
+        const city = document.getElementById("city").value;
+        const weatherInfoDiv = document.getElementById("weather-info");
+
+        // Reset the previous weather info or errors
+        weatherInfoDiv.innerHTML = '';
+
+        // Fetch the weather data from the backend API
+        fetch(`http://localhost:8080/weather?city=${city}`)
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error("City not found");
+                }
+            })
+            .then(data => {
+                // Check if data contains weather information
+                if (data && data.current_weather) {
+                    const temperature = data.current_weather.temperature;
+                    const weatherDescription = data.current_weather.weatherDescription;
+
+                    // Display weather info
+                    weatherInfoDiv.innerHTML = `
+                        <p>Temperature: ${temperature}°C</p>
+                        <p>Weather Description: ${weatherDescription}</p>
+                    `;
+                }
+            })
+            .catch(error => {
+                // Show error message if city is not found or any other error
+                weatherInfoDiv.innerHTML = `<p class="error">No city found</p>`;
+            });
+    });
+</script>
+
+</body>
+</html>
